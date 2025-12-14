@@ -31,11 +31,7 @@ class AuthController extends Controller
             $user = Auth::user();
 
             // Redirect berdasarkan role
-            // if ($user->role === 'admin') {
-            // return redirect()->route('admin.dashboard.dashboard')->with('success', 'Selamat datang Admin!');
-            // } else {
             return redirect()->intended($user->role === 'admin' ? '/admin/dashboard' : '/')->with('success', 'Selamat datang!');
-            // }
         }
 
         return back()->with('error', 'Email atau password salah!')->withInput();
@@ -72,7 +68,64 @@ class AuthController extends Controller
 
         // Redirect ke dashboard user
         return redirect()->intended($user->role === 'admin' ? '/admin/dashboard' : '/')->with('success', 'Selamat datang!');
-        // return redirect()->route('users.dashboard.dashboardusers')->with('success', 'Registrasi berhasil!');
+    }
+
+    // ==================== LUPA PASSWORD ====================
+
+    // Tampilkan halaman forgot password (input email)
+    public function showForgotPassword()
+    {
+        return view('auth.forgot');
+    }
+
+    // Proses cek email
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        // Cek apakah email ada di database
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->with('error', 'Email tidak terdaftar dalam sistem!')->withInput();
+        }
+
+        // Jika email ada, redirect ke halaman reset password dengan email
+        return redirect()->route('password.reset', ['email' => $request->email]);
+    }
+
+    // Tampilkan halaman reset password (input password baru)
+    public function showResetPassword(Request $request)
+    {
+        $email = $request->query('email');
+        
+        // Validasi email ada di query string
+        if (!$email) {
+            return redirect()->route('login')->with('error', 'Email tidak valid!');
+        }
+
+        return view('auth.reset', compact('email'));
+    }
+
+    // Proses reset password
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        // Cari user berdasarkan email
+        $user = User::where('email', $request->email)->first();
+
+        // Update password
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return redirect()->route('login')->with('success', 'Password berhasil diubah! Silakan login dengan password baru.');
     }
 
     // ==================== LOGOUT ====================
@@ -83,6 +136,5 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect('/')->with('success', 'Logout berhasil!');
-        // return redirect()->route('login')->with('success', 'Logout berhasil!');
     }
 }

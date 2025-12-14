@@ -292,7 +292,8 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
-    -webkit-appearance: button;
+  -webkit-appearance: button;
+  appearance: button; 
 }
 
 button:not(:disabled),
@@ -350,7 +351,7 @@ progress {
 }
 
 [type="search"] {
-    outline-offset: -2px;
+    appearance: none;
     -webkit-appearance: none;
 }
 
@@ -3810,13 +3811,14 @@ input[type="button"].btn-block {
 }
 
 .custom-control {
-    position: relative;
-    z-index: 1;
-    display: block;
-    min-height: 1.5rem;
-    padding-left: 1.5rem;
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 1.5rem;
+  
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .custom-control-inline {

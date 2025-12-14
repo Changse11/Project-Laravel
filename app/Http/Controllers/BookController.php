@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
-use App\Http\Requests\BookRequest; // Import ini
+use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -21,7 +21,7 @@ class BookController extends Controller
         return view('admin.books.create', compact('kategoris'));
     }
 
-    public function store(BookRequest $request) // Ganti Request jadi BookRequest
+    public function store(BookRequest $request)
     {
         Book::create($request->validated());
 
@@ -40,7 +40,7 @@ class BookController extends Controller
         return view('admin.books.edit', compact('book', 'kategoris'));
     }
 
-    public function update(BookRequest $request, Book $book) // Ganti Request jadi BookRequest
+    public function update(BookRequest $request, Book $book)
     {
         $book->update($request->validated());
 

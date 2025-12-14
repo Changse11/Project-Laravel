@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', 'Kelola User')
 @section('content')
 <div class="container-fluid">
     
@@ -17,6 +17,21 @@
         </div>
     @endif
     
+        <!-- Info Box -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="fas fa-info-circle"></i> Informasi 
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">
+                Menu ini digunakan untuk menampilkan dan mengelola data pengguna perpustakaan, seperti melihat informasi akun pengguna. 
+                Fitur penghapusan akun hanya digunakan untuk pengguna yang bermasalah, guna menjaga keamanan dan ketertiban sistem.
+                </p>
+            </div>
+        </div>
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -51,13 +66,9 @@
                                 <td>{{ $user->created_at->format('d M Y') }}</td>
                                 <td>
                                     @if($user->role != 'admin')
-                                        <form action="{{ route('users.destroy', $user) }}" method="POST" style="display:inline;">
-                                            @csrf 
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus user {{ $user->name }}?')">
-                                                <i class="fas fa-trash"></i> Hapus
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $user->id }}">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
@@ -80,4 +91,60 @@
     </div>
 
 </div>
+
+<!-- Modal Hapus User -->
+@foreach($users as $user)
+    @if($user->role != 'admin')
+    <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!-- HEADER MERAH UNTUK HAPUS -->
+               <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i> Konfirmasi Hapus User
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <strong><i class="fas fa-info-circle"></i> Peringatan!</strong>
+                        <p class="mb-0">Data yang dihapus tidak dapat dikembalikan.</p>
+                    </div>
+                    
+                    <p class="mb-3">Apakah Anda yakin ingin menghapus user berikut?</p>
+                    
+                    <table class="table table-sm table-borderless">
+                        <tr>
+                            <th width="100">Nama</th>
+                            <td><strong>{{ $user->name }}</strong></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ $user->email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Terdaftar</th>
+                            <td>{{ $user->created_at->format('d M Y') }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <form action="{{ route('users.destroy', $user) }}" method="POST" style="display:inline;">
+                        @csrf 
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Ya, Hapus User
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+@endforeach
 @endsection

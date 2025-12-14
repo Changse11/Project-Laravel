@@ -20,4 +20,9 @@ class Book extends Model
         'tahun_terbit' => 'integer',
         'stok' => 'integer'
     ];
+    
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class);
+    }
 }

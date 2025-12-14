@@ -1,11 +1,11 @@
-   <head>
+<head>
    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>@yield('title', 'Dashboard') - Perpustakaan</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset ('assets') }}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -17,4 +17,4 @@
     <link href="{{ asset ('assets') }}/css/sb-admin-2.css" rel="stylesheet">
    <!-- upload -->
    <link rel="icon" href="{{ asset ('assets') }}/img/library-svgrepo-com.svg">
-   </head>
+</head>
