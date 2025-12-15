@@ -39,7 +39,7 @@
             <div class="card-body">
                 <p class="mb-0">
                     Katalog buku perpustakaan ini menampilkan seluruh koleksi buku yang tersedia untuk dipinjam. Melalui menu ini, 
-                    Anda dapat melihat informasi detail buku, mengecek ketersediaan, serta melakukan peminjaman buku sesuai dengan ketentuan yang berlaku di perpustakaan.
+                    Anda dapat melihat informasi detail buku termasuk sinopsis, mengecek ketersediaan, serta melakukan peminjaman buku sesuai dengan ketentuan yang berlaku di perpustakaan.
                 </p>
             </div>
         </div>
@@ -57,12 +57,10 @@
                                 <th width="50">No</th>
                                 <th>Judul Buku</th>
                                 <th>Penulis</th>
-                                <th>Penerbit</th>
                                 <th>Tahun</th>
                                 <th>Kategori</th>
-                                <th>ISBN</th>
                                 <th>Stok</th>
-                                <th width="150">Aksi</th>
+                                <th width="180">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,12 +69,10 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td><strong>{{ $book->judul }}</strong></td>
                                     <td>{{ $book->penulis }}</td>
-                                    <td>{{ $book->penerbit }}</td>
                                     <td>{{ $book->tahun_terbit }}</td>
                                     <td>
                                         <span class="badge badge-info">{{ $book->kategori }}</span>
                                     </td>
-                                    <td><code>{{ $book->isbn }}</code></td>
                                     <td>
                                         @if($book->stok > 10)
                                             <span class="badge badge-success">{{ $book->stok }}</span>
@@ -87,22 +83,28 @@
                                         @endif
                                     </td>
                                     <td>
+                                        <!-- Tombol Detail -->
+                                        <button class="btn btn-info btn-sm" title="Detail Buku" 
+                                                data-toggle="modal" data-target="#detailModal{{ $book->id }}">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        
                                         <!-- Tombol Pinjam -->
                                         @if($book->stok > 0)
                                             <button class="btn btn-success btn-sm" title="Pinjam Buku" 
                                                     data-toggle="modal" data-target="#pinjamModal{{ $book->id }}">
-                                                <i class="fas fa-bookmark"></i> Pinjam
+                                                <i class="fas fa-bookmark"></i>
                                             </button>
                                         @else
                                             <button class="btn btn-secondary btn-sm" disabled title="Stok Habis">
-                                                <i class="fas fa-times"></i> Habis
+                                                <i class="fas fa-times"></i>
                                             </button>
                                         @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center">
+                                    <td colspan="7" class="text-center">
                                         <div class="py-4">
                                             <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
                                             <p class="text-muted">Belum ada buku tersedia saat ini.</p>
@@ -119,12 +121,102 @@
     </div>
 </div>
 
+<!-- Modal Detail Buku -->
+@foreach($books as $book)
+<div class="modal fade" id="detailModal{{ $book->id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-book"></i> Detail Buku
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-sm table-borderless">
+                            <tr>
+                                <th width="120">Judul Buku</th>
+                                <td><strong>{{ $book->judul }}</strong></td>
+                            </tr>
+                            <tr>
+                                <th>Penulis</th>
+                                <td>{{ $book->penulis }}</td>
+                            </tr>
+                            <tr>
+                                <th>Penerbit</th>
+                                <td>{{ $book->penerbit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Tahun Terbit</th>
+                                <td>{{ $book->tahun_terbit }}</td>
+                            </tr>
+                            <tr>
+                                <th>Kategori</th>
+                                <td><span class="badge badge-info">{{ $book->kategori }}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-sm table-borderless">
+                            <tr>
+                                <th width="120">ISBN</th>
+                                <td><code>{{ $book->isbn }}</code></td>
+                            </tr>
+                            <tr>
+                                <th>Stok</th>
+                                <td>
+                                    @if($book->stok > 10)
+                                        <span class="badge badge-success">{{ $book->stok }} Unit</span>
+                                    @elseif($book->stok > 0)
+                                        <span class="badge badge-warning">{{ $book->stok }} Unit</span>
+                                    @else
+                                        <span class="badge badge-danger">Stok Habis</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                @if($book->sinopsis)
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="font-weight-bold mb-2">
+                            <i class="fas fa-align-left"></i> Sinopsis
+                        </h6>
+                        <p class="text-justify" style="line-height: 1.8;">
+                            {{ $book->sinopsis }}
+                        </p>
+                    </div>
+                </div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Tutup
+                </button>
+                @if($book->stok > 0)
+                    <button type="button" class="btn btn-success" data-dismiss="modal" 
+                            data-toggle="modal" data-target="#pinjamModal{{ $book->id }}">
+                        <i class="fas fa-bookmark"></i> Pinjam Buku Ini
+                    </button>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 <!-- Modal Pinjam Buku -->
 @foreach($books as $book)
 <div class="modal fade" id="pinjamModal{{ $book->id }}" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <!-- UBAH HEADER KE BIRU -->
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">
                     <i class="fas fa-bookmark"></i> Pinjam Buku
@@ -185,7 +277,6 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         <i class="fas fa-times"></i> Batal
                     </button>
-                    <!-- TOMBOL KONFIRMASI TETAP HIJAU -->
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-check"></i> Konfirmasi Pinjam
                     </button>

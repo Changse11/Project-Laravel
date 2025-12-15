@@ -13,6 +13,7 @@ class Book extends Model
         'tahun_terbit',
         'kategori',
         'isbn',
+        'sinopsis',
         'stok'
     ];
 

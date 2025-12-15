@@ -19,11 +19,11 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
-                            <i class="fas fa-info-circle"></i> Selamat Datang!
+                            <i class="fas fa-info-circle"></i> Selamat Datang, {{ Auth::user()->name }}!
                         </h6>
                     </div>
                     <div class="card-body">
-                        <p class="mb-0">Dashboard ini dirancang untuk membantu Anda memantau kondisi perpustakaan secara menyeluruh, memastikan ketersediaan koleksi buku, mengelola data anggota, serta menjaga kelancaran proses layanan perpustakaan. Pastikan data selalu diperbarui agar sistem dapat berjalan dengan optimal dan memberikan informasi yang akurat kepada pengguna.</p>
+                        <p class="mb-0">Dashboard ini adalah pusat kendali Anda untuk memantau aktivitas perpustakaan secara real-time. Di sini, Anda dapat mengelola koleksi buku, data anggota, memantau stok menipis, dan memastikan kelancaran layanan. Mari kita jaga sistem tetap optimal hari ini!</p>
                     </div>
                 </div>
             </div>

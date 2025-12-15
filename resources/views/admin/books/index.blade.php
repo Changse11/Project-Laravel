@@ -35,7 +35,7 @@
             <div class="card-body">
                 <p class="mb-0">
                     Menu ini digunakan untuk mengelola seluruh koleksi buku perpustakaan, termasuk menambah buku baru, memperbarui data buku, menghapus data yang tidak diperlukan, serta memantau ketersediaan buku. 
-                    Setiap buku memiliki informasi seperti judul, penulis, penerbit, tahun terbit, kategori, ISBN, dan stok.
+                    Klik tombol detail untuk melihat informasi lengkap termasuk sinopsis buku.
                 </p>
             </div>
         </div>
@@ -53,10 +53,8 @@
                                 <th width="50">No</th>
                                 <th>Judul Buku</th>
                                 <th>Penulis</th>
-                                <th>Penerbit</th>
                                 <th>Tahun</th>
                                 <th>Kategori</th>
-                                <th>ISBN</th>
                                 <th>Stok</th>
                                 <th width="150">Aksi</th>
                             </tr>
@@ -67,12 +65,10 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td><strong>{{ $book->judul }}</strong></td>
                                     <td>{{ $book->penulis }}</td>
-                                    <td>{{ $book->penerbit }}</td>
                                     <td>{{ $book->tahun_terbit }}</td>
                                     <td>
                                         <span class="badge badge-info">{{ $book->kategori }}</span>
                                     </td>
-                                    <td><code>{{ $book->isbn }}</code></td>
                                     <td>
                                         @if($book->stok > 10)
                                             <span class="badge badge-success">{{ $book->stok }}</span>
@@ -96,7 +92,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center">
+                                    <td colspan="7" class="text-center">
                                         <div class="py-4">
                                             <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
                                             <p class="text-muted">Belum ada data buku.</p>

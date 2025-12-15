@@ -76,7 +76,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ==================== PROFILE (Semua User yang Login) ====================
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('includes.profil');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });

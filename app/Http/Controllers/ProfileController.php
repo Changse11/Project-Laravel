@@ -12,7 +12,7 @@ class ProfileController extends Controller
     // Tampilkan halaman profile
     public function index()
     {
-        return view('profile.index');
+        return view('includes.profil');
     }
 
     // Update nama dan email
@@ -29,7 +29,7 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->save();
 
-        return redirect()->route('profile.index')->with('success', 'Profile berhasil diupdate!');
+        return redirect()->route('includes.profil')->with('success', 'Profile berhasil diupdate!');
     }
 
     // Update password
@@ -51,6 +51,6 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('profile.index')->with('success', 'Password berhasil diubah!');
+        return redirect()->route('includes.profil')->with('success', 'Password berhasil diubah!');
     }
 }

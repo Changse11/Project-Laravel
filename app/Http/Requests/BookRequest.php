@@ -8,7 +8,7 @@ class BookRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // atau sesuaikan dengan policy kamu
+        return true;
     }
 
     public function rules(): array
@@ -22,6 +22,7 @@ class BookRequest extends FormRequest
             'tahun_terbit' => 'required|integer|min:1900|max:' . date('Y'),
             'kategori' => 'required|in:Pendidikan,Teknologi,Novel,Agama,Sejarah',
             'isbn' => 'required|string|unique:books,isbn,' . $bookId,
+            'sinopsis' => 'nullable|string',
             'stok' => 'required|integer|min:0'
         ];
     }
@@ -39,6 +40,7 @@ class BookRequest extends FormRequest
             'kategori.in' => 'Kategori tidak valid',
             'isbn.required' => 'ISBN wajib diisi',
             'isbn.unique' => 'ISBN sudah terdaftar',
+            'sinopsis.string' => 'Sinopsis harus berupa teks',
             'stok.required' => 'Stok wajib diisi',
             'stok.min' => 'Stok minimal 0'
         ];

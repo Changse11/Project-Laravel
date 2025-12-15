@@ -28,6 +28,21 @@
             </div>
         @endif
 
+        <!-- Info Box -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="fas fa-info-circle"></i> Informasi
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">
+                    Halaman ini menampilkan data peminjaman buku oleh anggota perpustakaan. Admin dapat memantau status peminjaman, tanggal pinjam, tanggal kembali, 
+                    serta melakukan pengelolaan pengembalian buku melalui tombol aksi yang tersedia.
+                </p>
+            </div>
+        </div>
+
         <!-- DataTales -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">

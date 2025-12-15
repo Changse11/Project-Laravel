@@ -77,24 +77,63 @@
                     </div>
                 </div>
 
+                @if($book->sinopsis)
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="font-weight-bold mb-3">
+                            <i class="fas fa-align-left"></i> Sinopsis
+                        </h5>
+                        <p class="text-justify" style="line-height: 1.8;">
+                            {{ $book->sinopsis }}
+                        </p>
+                    </div>
+                </div>
+                @endif
+
                 <hr>
 
                 <div class="text-right">
                     <a href="{{ route('books.edit', $book) }}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Edit Buku
                     </a>
-                    <form action="{{ route('books.destroy', $book) }}" method="POST" style="display:inline;">
-                        @csrf 
-                        @method('DELETE')
-                        <button onclick="return confirm('Yakin ingin menghapus buku {{ $book->judul }}?')" 
-                                class="btn btn-danger">
-                            <i class="fas fa-trash"></i> Hapus Buku
-                        </button>
-                    </form>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                        <i class="fas fa-trash"></i> Hapus Buku
+                    </button>
                 </div>
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal Hapus -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i> Konfirmasi Hapus
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Yakin ingin menghapus buku <strong>{{ $book->judul }}</strong>?</p>
+                <p class="text-danger"><small>Data yang dihapus tidak dapat dikembalikan.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <form action="{{ route('books.destroy', $book) }}" method="POST" style="display:inline;">
+                    @csrf 
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Ya, Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

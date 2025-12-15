@@ -108,6 +108,16 @@
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label for="sinopsis">Sinopsis</label>
+                        <textarea name="sinopsis" id="sinopsis" rows="5"
+                                  class="form-control @error('sinopsis') is-invalid @enderror" 
+                                  placeholder="Masukkan sinopsis buku (opsional)">{{ old('sinopsis', $book->sinopsis) }}</textarea>
+                        @error('sinopsis')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <hr>
 
                     <div class="form-group mb-0">
